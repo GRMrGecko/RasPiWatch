@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>Clock</title>
+<style type="text/css">
+body {
+	background: #000000;
+	color: #ffffff;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background-repeat: no-repeat;
+    background-position: left top;
+	background-size: cover;
+	text-shadow: 4px 3px 9px #000000;
+}
+#date {
+	width: 100%;
+	font-size: 50px;
+	text-align: center;
+}
+#time {
+	width: 100%;
+	font-size: 90px;
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<div id="date"></div>
+	<div id="time"></div>
+	<script type="text/javascript">
+	function pad(num, size) {
+	    var s = num+"";
+	    while (s.length < size) s = "0" + s;
+	    return s;
+	}
+	var dayString = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursday", 5: "Friday", 6: "Saturday"};
+	var monthString = {0: "January", 1: "February", 2: "March", 3: "April", 4: "May", 5: "June", 6: "July", 7: "August", 8: "September", 9: "October", 10: "November", 11: "December"};
+	function updateClock() {
+		var time = new Date();
+		var dayOfTheWeek = dayString[time.getDay()];
+		var month = monthString[time.getMonth()];
+		var day = time.getDate();
+		var year = time.getFullYear();
+	
+		var hours = time.getHours();
+		var minutes = time.getMinutes();
+		var seconds = time.getSeconds();
+		
+		if (hours>12) {
+			hours -= 12;
+		}
+		
+		document.getElementById("date").innerHTML = dayOfTheWeek+" "+month+" "+day+", "+year;
+		document.getElementById("time").innerHTML = hours+":"+pad(minutes,2)+":"+pad(seconds,2);
+	
+	}
+	setInterval(updateClock, 20);
+	var widthAspect = window.innerWidth/window.innerHeight;
+	var heightAspect = window.innerHeight/window.innerWidth;
+	var sizeBy = 0;
+	if (widthAspect<heightAspect) {
+		sizeBy = window.innerHeight;
+	} else {
+		sizeBy = window.innerWidth;
+	}
+	var dateSize = sizeBy/13;
+	var timeSize = sizeBy/6;
+	document.getElementById("date").style.fontSize = dateSize;
+	document.getElementById("time").style.fontSize = timeSize;
+	var backgrounds = Array();//Place your background list here E.G. Array("1.jpg","2.jpg")
+	function changeBackground() {
+		if (backgrounds.length==0) {
+			return;
+		}
+		var image = backgrounds[Math.floor(Math.random()*backgrounds.length)];
+		document.body.style.backgroundImage="url('bg/"+image+"')";
+	}
+	setInterval(changeBackground, 60000);
+	changeBackground();
+	</script>
+</body>
+</html>
